@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "name": "figma-code-gen",
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
