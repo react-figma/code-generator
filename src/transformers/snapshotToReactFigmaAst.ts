@@ -7,20 +7,7 @@ export const snapshotToReactFigmaAst = snapshot => {
         t.identifier("Component"),
         t.arrowFunctionExpression(
           [],
-          t.blockStatement([
-            t.returnStatement(
-              t.jsxElement(
-                t.jsxOpeningElement(
-                  t.jsxIdentifier(ElementToComponent[snapshot.type] || "View"),
-                  convertToAttributes(snapshot),
-                  true
-                ),
-                null,
-                [],
-                null
-              )
-            )
-          ])
+          t.blockStatement([t.returnStatement(convertToJsxElement(snapshot))])
         )
       )
     ])
@@ -56,4 +43,32 @@ const convertToAttributes = snapshot => {
           t.jsxExpressionContainer(t.numericLiteral(snapshot[key]))
       )
     );
+};
+
+const convertToJsxElement = snapshot => {
+  if (!snapshot.children || snapshot.children.length === 0) {
+    return t.jsxElement(
+      t.jsxOpeningElement(
+        t.jsxIdentifier(ElementToComponent[snapshot.type] || "View"),
+        convertToAttributes(snapshot),
+        true
+      ),
+      null,
+      [],
+      null
+    );
+  } else {
+    return t.jsxElement(
+      t.jsxOpeningElement(
+        t.jsxIdentifier(ElementToComponent[snapshot.type] || "View"),
+        convertToAttributes(snapshot),
+        false
+      ),
+      t.jsxClosingElement(
+        t.jsxIdentifier(ElementToComponent[snapshot.type] || "View")
+      ),
+      snapshot.children.map(convertToJsxElement),
+      null
+    );
+  }
 };
