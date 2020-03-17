@@ -11,7 +11,7 @@ export const snapshotToReactFigmaAst = snapshot => {
             t.returnStatement(
               t.jsxElement(
                 t.jsxOpeningElement(
-                  t.jsxIdentifier(ElementToComponent[snapshot.type]),
+                  t.jsxIdentifier(ElementToComponent[snapshot.type] || "View"),
                   convertToAttributes(snapshot),
                   true
                 ),
@@ -30,7 +30,20 @@ export const snapshotToReactFigmaAst = snapshot => {
 };
 
 const ElementToComponent = {
-  COMPONENT: "Component"
+  COMPONENT: "Component",
+  PAGE: "Page",
+  FRAME: "View",
+  GROUP: "View",
+  SLICE: "Slice",
+  RECTANGLE: "View",
+  LINE: "Line",
+  ELLIPSE: "Ellipse",
+  POLYGON: "Polygon",
+  STAR: "Star",
+  VECTOR: "Vector",
+  TEXT: "Text",
+  INSTANCE: "Instance",
+  BOOLEAN_OPERATION: "BooleanOperation"
 };
 
 const convertToAttributes = snapshot => {

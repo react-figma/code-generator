@@ -1,6 +1,9 @@
 const availableProps = ["width", "height", "type"];
 
 export const serialize = node => {
+  if (!node) {
+    return;
+  }
   const result = {} as any;
   availableProps.map(prop => {
     result[prop] = node[prop];
